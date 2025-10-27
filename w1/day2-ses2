@@ -1,0 +1,68 @@
+group_sessions = []
+print("GROUP STUDY SESSION TRACKER \n")
+
+group_name = input("What's your group's name? ")
+subject = input("What subject did you study? ")
+num_members = int(input("How many members participated? "))
+
+print(f"\nEnter study hours for each of the {num_members} members:")
+member_hours = []
+total_hours = 0
+
+for i in range(num_members):
+    hours = float(input(f"Member {i+1} hours: "))
+    member_hours.append(hours)
+    total_hours += hours
+
+difficulty = input("Overall difficulty? (easy/medium/hard): ")
+
+session = {
+    "group_name": group_name,
+    "subject": subject,
+    "num_members": num_members,
+    "individual_hours": member_hours,
+    "total_hours": total_hours,
+    "difficulty": difficulty
+}
+
+group_sessions.append(session)
+
+print("\n--- Add another session? (y/n) ---")
+if input().lower() == 'y':
+    subject = input("Subject: ")
+    num_members = int(input("Members present: "))
+
+    member_hours = []
+    total_hours = 0
+    for i in range (num_members):
+        hours = float(input(f"Member {i+1} hours: "))
+        member_hours.append(hours)
+        total_hours += hours
+    
+    difficulty = input("Difficulty (easy/medium/hard): ")
+
+    group_sessions.append({
+        "group_name": group_name,
+        "subject": subject,
+        "num_members": num_members,
+        "individual_hours": member_hours,
+        "total_hours": total_hours,
+        "difficulty": difficulty
+    })
+
+print("\n" + "="*60)
+print(f"{group_name.upper()} - TODAY'S STUDY SUMMARY")
+print("="*60)
+
+grand_total = 0
+for session in group_sessions:
+    avg_hours = session['total_hours'] / session['num_members']
+    print(f"• {session['subject']}:")
+    print(f"  - Members: {session['num_members']}")
+    print(f"  - Total: {session['total_hours']} hours")
+    print(f"  - Average: {avg_hours:.1f} hours per member")
+    print(f"  - Difficulty: {session['difficulty']}")
+    grand_total += session['total_hours']
+
+print(f"\n Combined group effort: {grand_total} hours")
+print("Keep up da teamwork ppl!")
