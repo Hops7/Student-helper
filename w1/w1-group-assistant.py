@@ -105,17 +105,18 @@ def view_group_stats(group_name):
                 "moods": [],
                 "subjects": set()
             }
-        member_data[member]["sesions"] += 1
+        member_data[member]["sessions"] += 1
         member_data[member]["hours"] += session["hours"]
+        member_data[member]["moods"].append(session["mood"])
         member_data[member]["subjects"].add(session["subject"])
     print("MEMBER BREAKDOWN:")
     print("-" * 70)
     for member, data in sorted(member_data.items(), key=lambda x: x[1]["hours"], reverse=True):
         avg_mood = sum(data["moods"]) / len(data["moods"])
         print(f"\n{member}")
-        print(f"Sesions: {data['sssions']}")
+        print(f"Sessions: {data['sessions']}")
         print(f"Total hours: {data['hours']:.1f}")
-        print(f"Avg hours/session: {data['hours']/data['sesions']:.1f}")
+        print(f"Avg hours/session: {data['hours']/data['sessions']:.1f}")
         print(f"Avg motivation: {avg_mood:.1f}/10")
         print(f"Subjects: {', '.join(data['subjects'])}")
     total_hours = sum(s["hours"] for s in sessions)
@@ -208,7 +209,7 @@ def run_group_quiz():
     print(f"{group_name.upper()} - QUIZ RESULTS")
     print("="*60 + "\n")
     for member in member_scores:
-        print(f"{member['name']}: {member['score']}/3 ({member['percentage']:.0f})")
+        print(f"{member['name']}: {member['score']}/3 ({member['percentage']:.0f}%)")
     avg_score = sum(m['percentage'] for m in member_scores) / len(member_scores)
     print(f"\nGroup Average: {avg_score:.1f}%")
     if avg_score >= 80:
@@ -244,7 +245,7 @@ def main():
     while True:
         try:
             display_enhanced_menu()
-            choice = get_valid_number("\nYour choice (1-6): ", 1, 6)
+            choice = get_valid_number("\nYour choice (1-9): ", 1, 9)
             if choice == 1:
                 add_study_session()
             elif choice == 2:
@@ -286,7 +287,7 @@ def view_recent_activity():
     print("="*70 + "\n")
     for session in sessions[-10:]:
         print(f"[{session['timestamp']}]")
-        print("f{session['group']} - {session['member']}")
+        print(f"{session['group']} - {session['member']}")
         print(f"{session['subject']} ({session['hours']}hrs, {session['difficulty']})")
     print("="*70 + "\n")
 def compare_groups():
@@ -300,7 +301,7 @@ def compare_groups():
         print(f"\nNo data for {group1}\n")
         return
     if not sessions2:
-        print(f"\nNo data gor {group2}\n")
+        print(f"\nNo data for {group2}\n")
         return
     print("\n" + "="*70)
     print(f"{group1.upper()} vs {group2.upper()}")
@@ -323,7 +324,7 @@ def compare_groups():
     print(f"{'Total Hours':<25} {stats[group1]['hours']:<20.1f} {stats[group2]['hours']:<20.1f}")
     print(f"{'Active Members':<25} {stats[group1]['members']:<20} {stats[group2]['members']:<20}")
     print(f"{'Hours per Member':<25} {stats[group1]['hours_per_member']:<20.1f} {stats[group2]['hours_per_member']:<20.1f}")
-    print(f"{'Avg Motivation':<25} {stats[group1]['moood']:<20.1f} {stats[group2]['mood']:<20.1f}")
+    print(f"{'Avg Motivation':<25} {stats[group1]['mood']:<20.1f} {stats[group2]['mood']:<20.1f}")
     print("\n" + "="*70 +"\n")
 def export_group_report(group_name):
     """Export a detailed report for a group to a text file"""
@@ -346,7 +347,7 @@ def export_group_report(group_name):
             file.write(f"Total Sessions: {len(sessions)}\n")
             file.write(f"Total Hours: {total_hours:.1f}\n")
             file.write(f"Active Members: {len(members)}\n")
-            file.write(f"Average Motivations: {avg_mood:.1f}/10\n\n")
+            file.write(f"Average Motivation: {avg_mood:.1f}/10\n\n")
             file.write("MEMBER BREAKDOWN\n")
             file.write("-" * 70 + "\n")
             member_data = {}
@@ -360,9 +361,9 @@ def export_group_report(group_name):
                 member_avg_mood = sum(s["mood"] for s in member_sessions) / len(member_sessions)
                 file.write(f"\n{member}:\n")
                 file.write(f"Sessions: {len(member_sessions)}\n")
-                file.write(f"Totak Hours: {member_hours:.1f}\n")
+                file.write(f"Total Hours: {member_hours:.1f}\n")
                 file.write(f"Avg Motivation: {member_avg_mood:.1f}/10\n")
-            file.write("\nDETAILED SESSION LOG\N")
+            file.write("\nDETAILED SESSION LOG\n")
             file.write("-" * 70 + "\n\n")
             for session in sessions:
                 file.write(f"[{session['timestamp']}]\n")
