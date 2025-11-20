@@ -274,7 +274,7 @@ def main():
             print("\n\nExiting safely...\n")
             break
         except Exception as e:
-            print(f"\nAn error occurred: {e}")
+            print(f"\nAn error occured: {e}")
             print("Please try again.\n")
 def view_recent_activity():
     """Show the 10 most recent sessions across all groups"""
