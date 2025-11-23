@@ -1,0 +1,75 @@
+from datetime import datetime, date, time, timedelta
+print("="*60)
+print("DATETIME PRACTICE")
+print("="*60 + "\n")
+print("--- Current Date and Time ---")
+now = datetime.now()
+today = date.today()
+print(f" Full datetime: {now}")
+print(f"Just date: {today}")
+print(f"Year: {now.year}")
+print(f"Month: {now.month}")
+print(f"Day: {now.day}")
+print(f"Hour: {now.hour}")
+print(f"Minute: {now.minute}")
+print("\n--- Date Formatting ---")
+print(f"ISO format: {now.strftime('%Y-%m-%d %H:%M:%S')}")
+print(f"US format: {now.strftime('%m/%d/%Y')}")
+print(f"Long format: {now.strftime('%A, %B %d, %Y')}")
+print(f"Time: {now.strftime('%I:%M %p')}")
+print(f"Short: {now.strftime('%b %d, %y')}")
+print("\n--- Creating Specific Dates ---")
+semester_start = datetime(2025, 1, 20, 9, 0)
+exam_date = date(2025, 5, 15)
+print(f"Semester starts: {semester_start.strftime('%B %d, %Y at %I:%M %p')}")
+print(f"Final exam: (exam_date.strftime('%A, %B %d, %Y))")
+print("\n--- Date Calculations ---")
+days_until_exam = (exam_date - today).days
+print(f"Days until exam: {days_until_exam}")
+one_week_from_now = today + timedelta(weeks=1)
+print(f"One week from now: {one_week_from_now}")
+thirty_days_ago = today - timedelta(days=30)
+print(f"30 days ago: {thirty_days_ago}")
+print("\n--- Study Session Duration ---")
+session_start = datetime(2025, 1, 15, 14, 0)
+session_end = datetime(2025, 1, 15, 17, 30)
+duration = session_end - session_start
+print(f"Start: {session_start.strftime('%I:%M %p')}")
+print(f"End: {session_end.strftime('%I:%M %p')}")
+print(f"Duration: {duration}")
+print(f"Hours: {duration.total_seconds() / 3600:.1f}")
+print("\n--- Comparing Dates ---")
+assignment1_due = date(2025, 1, 20)
+assignment2_due = date(2025, 1, 25)
+if assignment1_due < assignment2_due:
+    print(f"Assignment 1 due first ({assignment1_due}")
+days_between = (assignment2_due - assignment1_due).days
+print(f"Days between assignments: {days_between}")
+print("\n--- Parsing Date Strings ---")
+date_string = "2025-01-20 14:30"
+parsed_date = datetime.strptime(date_string, "%Y-%m-%d %H:%M")
+print(f"Parsed: {parsed_date}")
+print(f"Formatted: {parsed_date.strftime('%B %d at %I:%M %p')}")
+print("\n--- Study Schedule ---")
+week_start = today
+study_days = []
+for i in range(7):
+    day = week_start + timedelta(days=i)
+    study_days.append(day)
+    print(f"{day.strftime('%A, %B %d')}")
+print(f"\n--- Study Streak Calculation ---")
+last_study_date = today - timedelta(days=1)
+days_since_study = (today - last_study_date).days
+print(f"Days since last study: {days_since_study}")
+if days_since_study == 0:
+    print("Studied today!")
+elif days_since_study == 1:
+    print("Studied yesterday, keep it up!")
+else:
+    print(f"It's been {days_since_study} days - time to study!")
+print("\n--- Age Calculaction ---")
+birthdate = date(2003, 5, 20)
+age = (today - birthdate).days // 365
+print(f"Birthday: {birthdate.strftime('%B %d, %Y')}")
+print(f"Age: approximately {age} years old")
+print("\n" + "="*60)
